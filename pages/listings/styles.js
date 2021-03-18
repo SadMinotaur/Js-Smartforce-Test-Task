@@ -18,8 +18,8 @@ const Sl = {
     margin: 10px 0 10px 0;
   `,
   CardDiv: styled.div`
+    padding: 0 0 10px 0;
     border-radius: 5px;
-    padding: 5px;
     font-size: 15px;
     width: 300px;
     border: solid lightgray 1px;
@@ -33,7 +33,7 @@ const Sl = {
   CardImage: styled.img`
     width: 100%;
     height: 250px;
-    object-fit: contain;
+    object-fit: cover;
   `,
   ImageFull: styled.img`
     width: 100%;
@@ -41,14 +41,20 @@ const Sl = {
     object-fit: contain;
   `,
   CardText: styled.div`
+    padding: 0 16px 0 16px;
     font-size: ${(p) => (p.size ? p.size : 16)}px;
   `,
-  FilterBlock: styled.div`
-    margin: 5px 0 5px 0;
+  ItemInfo: styled.div`
+    margin: 10px 5% 15px 5%;
   `,
-  FilterSelect: styled.select`
-    width: 200px;
-    border-radius: 5px;
+  LabelSpacing: styled.h4`
+    margin: 10px 0 0 0;
+  `,
+  Element: styled.td`
+    padding: 0 10px 0 0;
+  `,
+  Table: styled.table`
+    margin: 10px 0 0 0;
   `,
 };
 export default Sl;

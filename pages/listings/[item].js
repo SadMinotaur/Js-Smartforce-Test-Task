@@ -30,40 +30,42 @@ export default function Listings() {
           <Head>
             <title>{item.product}</title>
           </Head>
-          <Sl.MainContainer padding={17}>
+          <Sl.MainContainer>
             <Carousel showArrows={false}>
               {item.images.map((s) => (
                 <Sl.ImageFull key={s} src={s} />
               ))}
             </Carousel>
-            <h2>{item.price} USD</h2>
-            <h2>{item.square} Square foots</h2>
-            <h4>Type</h4>
-            <p>{item.type}</p>
-            <h4>City</h4>
-            <p>{item.address.city}</p>
-            <h4>Description</h4>
-            <div>{item.description}</div>
-            <table>
-              <tr>
-                <td>
-                  <h4>Garage capacity: </h4>
-                </td>
-                <td>{item.garage}</td>
-              </tr>
-              <tr>
-                <td>
-                  <h4>Bedrooms count: </h4>
-                </td>
-                <td>{item.bedrooms}</td>
-              </tr>
-            </table>
-            <h4>Amenities:</h4>
-            {item.amenities.map((s) => (
-              <span key={s}> {s}</span>
-            ))}
-            <h4>Builders</h4>
-            <div>{item.builder}</div>
+            <Sl.ItemInfo>
+              <h2>{item.price} USD</h2>
+              <h2>{item.square} Square foots</h2>
+              <Sl.LabelSpacing>Type</Sl.LabelSpacing>
+              <p>{item.type}</p>
+              <Sl.LabelSpacing>City</Sl.LabelSpacing>
+              <p>{item.address.city}</p>
+              <Sl.LabelSpacing>Description</Sl.LabelSpacing>
+              <p>{item.description}</p>
+              <Sl.LabelSpacing>Amenities:</Sl.LabelSpacing>
+              {item.amenities.map((s) => (
+                <span key={s}> {s}</span>
+              ))}
+              <Sl.LabelSpacing>Builders</Sl.LabelSpacing>
+              <p>{item.builder}</p>
+              <Sl.Table>
+                <tr>
+                  <Sl.Element>
+                    <h4>Garage capacity:</h4>
+                  </Sl.Element>
+                  <td>{item.garage}</td>
+                </tr>
+                <tr>
+                  <Sl.Element>
+                    <h4>Bedrooms count:</h4>
+                  </Sl.Element>
+                  <td>{item.bedrooms}</td>
+                </tr>
+              </Sl.Table>
+            </Sl.ItemInfo>
           </Sl.MainContainer>
         </>
       )}
