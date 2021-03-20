@@ -13,7 +13,6 @@ export default function Home() {
           Here are available <Link href="/listings">listings</Link>.
         </p>
       </section>
-      <section></section>
     </>
   );
 }
