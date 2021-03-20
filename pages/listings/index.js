@@ -31,7 +31,7 @@ export default function Listings() {
           {items.map((item) => (
             <Sl.CardDiv key={item.id}>
               <Carousel showArrows={false}>
-                {item.images.map((s) => (
+                {item.images.images.map((s) => (
                   <Sl.CardImage key={s} src={s} />
                 ))}
               </Carousel>

@@ -2,16 +2,14 @@ import {Sequelize, DataTypes, Model} from 'sequelize';
 import fs from 'fs';
 
 class Dao {
+  model;
+
   async init() {
     const sequelize = new Sequelize({
       dialect: 'sqlite',
       storage: 'data/database.sqlite',
     });
-    try {
-      await sequelize.authenticate();
-    } catch (error) {
-      console.error('Unable to connect to the database:', error);
-    }
+    await sequelize.authenticate();
     class Product extends Model {}
     Product.init(
       {
@@ -37,16 +35,34 @@ class Dao {
       JSON.parse(data).forEach((json) => {
         Product.create({
           ...json,
+          // Arrays only in Postgres
           amenities: {amenities: json.amenities},
           images: {images: json.images},
         });
       }),
     );
+    this.model = Product;
+  }
+
+  async getItems(params) {
+    if (!this.model) {
+      try {
+        await this.init();
+      } catch (error) {
+        console.error('Unable to connect to the database:', error);
+        return [];
+      }
+    }
+    const prd = await this.model.findAll({
+      where: {
+        id: 1,
+      },
+    });
+    return prd;
   }
 }
 
 const DaoIn = new Dao();
-DaoIn.init();
 export default DaoIn;
 
 // Previous attempt
