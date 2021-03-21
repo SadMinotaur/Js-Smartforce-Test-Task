@@ -51,19 +51,24 @@ export default function Listings() {
               ))}
               <Sl.LabelSpacing>Builders</Sl.LabelSpacing>
               <p>{item.builder}</p>
+              {item.hasBasement && (
+                <Sl.LabelSpacing>Has basement</Sl.LabelSpacing>
+              )}
               <Sl.Table>
-                <tr>
-                  <Sl.Element>
-                    <h4>Garage capacity:</h4>
-                  </Sl.Element>
-                  <td>{item.garage}</td>
-                </tr>
-                <tr>
-                  <Sl.Element>
-                    <h4>Bedrooms count:</h4>
-                  </Sl.Element>
-                  <td>{item.bedrooms}</td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <Sl.Element>
+                      <h4>Garage capacity:</h4>
+                    </Sl.Element>
+                    <td>{item.garage}</td>
+                  </tr>
+                  <tr>
+                    <Sl.Element>
+                      <h4>Bedrooms count:</h4>
+                    </Sl.Element>
+                    <td>{item.bedrooms}</td>
+                  </tr>
+                </tbody>
               </Sl.Table>
             </Sl.ItemInfo>
           </Sl.MainContainer>

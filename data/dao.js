@@ -9,6 +9,7 @@ class Dao {
     const sequelize = new Sequelize({
       dialect: 'sqlite',
       storage: 'data/database.sqlite',
+      logging: false,
     });
     await sequelize.authenticate();
     class Product extends Model {}
@@ -31,27 +32,54 @@ class Dao {
       },
       {sequelize, modelName: 'product'},
     );
-    await sequelize.sync({force: true});
+    await sequelize.sync();
+    this.model = Product;
     for (const json of JSON.parse(fs.readFileSync('data/houses.json'))) {
-      await Product.create({
-        ...json,
-        // Arrays only in Postgres
-        amenities: {amenities: json.amenities},
-        images: {images: json.images},
+      await Product.findOrCreate({
+        where: {
+          id: json.id,
+        },
+        defaults: {
+          ...json,
+          // Arrays only in Postgres
+          amenities: {amenities: json.amenities},
+          images: {images: json.images},
+        },
+      }).catch((e) => {
+        console.log(e);
       });
     }
-    this.model = Product;
+    console.log('done insert');
   }
 
   async getItems(params) {
-    const {offset, price, name} = params;
-    const prd = await this.model.findAll({
-      where: {
-        id: {[this.op.between]: [offset, offset + 20]},
-        price: {[this.op.between]: [0, price]},
-        product: {[this.op.startsWith]: [name]},
-      },
-    });
+    const {
+      offset,
+      priceStr,
+      priceEnd,
+      name,
+      builder,
+      garage,
+      bedrooms,
+      squareStr,
+      squareEnd,
+    } = params;
+    const prd = await this.model
+      .findAll({
+        where: {
+          price: {[this.op.between]: [priceStr, priceEnd]},
+          square: {[this.op.between]: [squareStr, squareEnd]},
+          product: {[this.op.startsWith]: [name]},
+          builder: {[this.op.startsWith]: [builder]},
+          garage: {[this.op.gte]: [garage]},
+          bedrooms: {[this.op.gte]: [bedrooms]},
+        },
+        offset: offset,
+        limit: 20,
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     return prd;
   }
 }
