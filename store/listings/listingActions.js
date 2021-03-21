@@ -10,7 +10,7 @@ export const fetchAll = (offset) => (dispatch) =>
     body: JSON.stringify({offset: offset}),
   })
     .then((r) => r.json())
-    .then((v) => dispatch({type: types.FETCH, payload: v}));
+    .then((v) => dispatch({type: types.FETCH, payload: v ? v : []}));
 
 export const fetchOne = (id) => (dispatch) =>
   fetch(`http://localhost:3000/api/listings/` + id, {

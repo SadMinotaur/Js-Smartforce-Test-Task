@@ -14,6 +14,7 @@ export default function Listings() {
 
   useEffect(() => {
     dispatch(fetchAll(offset));
+    console.log(items);
     return () => {};
   }, []);
 

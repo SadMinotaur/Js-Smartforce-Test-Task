@@ -2,6 +2,7 @@ import {Sequelize, DataTypes, Model} from 'sequelize';
 import fs from 'fs';
 
 class Dao {
+  op = Sequelize.Op;
   model;
 
   async init() {
@@ -31,31 +32,24 @@ class Dao {
       {sequelize, modelName: 'product'},
     );
     await sequelize.sync({force: true});
-    fs.readFile('data/houses.json', (err, data) =>
-      JSON.parse(data).forEach((json) => {
-        Product.create({
-          ...json,
-          // Arrays only in Postgres
-          amenities: {amenities: json.amenities},
-          images: {images: json.images},
-        });
-      }),
-    );
+    for (const json of JSON.parse(fs.readFileSync('data/houses.json'))) {
+      await Product.create({
+        ...json,
+        // Arrays only in Postgres
+        amenities: {amenities: json.amenities},
+        images: {images: json.images},
+      });
+    }
     this.model = Product;
   }
 
   async getItems(params) {
-    if (!this.model) {
-      try {
-        await this.init();
-      } catch (error) {
-        console.error('Unable to connect to the database:', error);
-        return [];
-      }
-    }
+    const {offset, price, name} = params;
     const prd = await this.model.findAll({
       where: {
-        id: 1,
+        id: {[this.op.between]: [offset, offset + 20]},
+        price: {[this.op.between]: [0, price]},
+        product: {[this.op.startsWith]: [name]},
       },
     });
     return prd;

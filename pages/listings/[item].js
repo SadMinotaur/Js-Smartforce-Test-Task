@@ -32,7 +32,7 @@ export default function Listings() {
           </Head>
           <Sl.MainContainer>
             <Carousel showArrows={false}>
-              {item.images.map((s) => (
+              {item.images.images.map((s) => (
                 <Sl.ImageFull key={s} src={s} />
               ))}
             </Carousel>
@@ -46,7 +46,7 @@ export default function Listings() {
               <Sl.LabelSpacing>Description</Sl.LabelSpacing>
               <p>{item.description}</p>
               <Sl.LabelSpacing>Amenities:</Sl.LabelSpacing>
-              {item.amenities.map((s) => (
+              {item.amenities.amenities.map((s) => (
                 <span key={s}> {s}</span>
               ))}
               <Sl.LabelSpacing>Builders</Sl.LabelSpacing>
