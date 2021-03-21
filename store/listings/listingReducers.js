@@ -30,10 +30,20 @@ const filterReducer = (state = {}, {type, payload}) => {
   }
 };
 
+const countReducer = (state = 0, {type, payload}) => {
+  switch (type) {
+    case types.SET_COUNT:
+      return payload;
+    default:
+      return state;
+  }
+};
+
 const reducers = {
   listings: listingsReducer,
   offset: offsetReducer,
   filter: filterReducer,
+  count: countReducer,
 };
 
 export default combineReducers(reducers);

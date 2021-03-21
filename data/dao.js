@@ -54,6 +54,7 @@ class Dao {
 
   async getItems(params) {
     const {
+      id,
       offset,
       priceStr,
       priceEnd,
@@ -65,15 +66,18 @@ class Dao {
       squareEnd,
     } = params;
     const prd = await this.model
-      .findAll({
-        where: {
-          price: {[this.op.between]: [priceStr, priceEnd]},
-          square: {[this.op.between]: [squareStr, squareEnd]},
-          product: {[this.op.startsWith]: [name]},
-          builder: {[this.op.startsWith]: [builder]},
-          garage: {[this.op.gte]: [garage]},
-          bedrooms: {[this.op.gte]: [bedrooms]},
-        },
+      .findAndCountAll({
+        where:
+          id !== undefined
+            ? params
+            : {
+                price: {[this.op.between]: [priceStr, priceEnd]},
+                square: {[this.op.between]: [squareStr, squareEnd]},
+                product: {[this.op.startsWith]: [name]},
+                builder: {[this.op.startsWith]: [builder]},
+                garage: {[this.op.gte]: [garage]},
+                bedrooms: {[this.op.gte]: [bedrooms]},
+              },
         offset: offset,
         limit: 20,
       })

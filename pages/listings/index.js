@@ -15,6 +15,7 @@ export default function Listings() {
   const items = useSelector((state) => state.listings);
   const offset = useSelector((state) => state.offset);
   const filter = useSelector((state) => state.filter);
+  const count = useSelector((state) => state.count);
   const dispatch = useDispatch();
   const router = useRouter();
   const firstRender = useRef(true);
@@ -28,15 +29,15 @@ export default function Listings() {
   }, []);
 
   const fetchChanges = (values) => {
-    dispatch(fetchAll({...values, offset: 0}));
     dispatch(setOffset(0));
     dispatch(setFilter(values));
+    dispatch(fetchAll({...values, offset: 0}));
   };
 
   const changePage = (num, values) => {
-    dispatch(fetchAll({...values, offset: num}));
     dispatch(setOffset(num));
     dispatch(setFilter(values));
+    dispatch(fetchAll({...values, offset: num}));
   };
 
   const Filter = ({name, type, placeholder, defaultValue}) => (
@@ -166,7 +167,7 @@ export default function Listings() {
               </Sl.PagesButton>
               <Sl.PagesButton>{offset / 20 + 1}</Sl.PagesButton>
               <Sl.PagesButton
-                disabled={items.length < 20 ? true : false}
+                disabled={offset + 20 > count ? true : false}
                 onClick={() => changePage(offset + 20, values)}>
                 {'>'}
               </Sl.PagesButton>
